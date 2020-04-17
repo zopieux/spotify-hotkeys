@@ -6,6 +6,8 @@ Adds the following keyboard shortcuts to https://open.spotify.com/:
 * Alt+Shift+P: previous track
 * Alt+Shift+N: next track
 
+You can customize these shortcuts by opening `chrome://extensions/shortcuts`.
+
 This extension relies on the HTML/CSS structure of the website.
 Spotify might break it by changing their frontend.
 
