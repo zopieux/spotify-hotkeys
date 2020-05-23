@@ -1,6 +1,8 @@
 # Spotify Web hotkeys
 
-Adds the following keyboard shortcuts to https://open.spotify.com/:
+Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/spotify-web-player-hotkey/pdcbjjmgfakcbbchppeemlfpfgkdmjji).
+
+Adds the following keyboard shortcuts to https://open.spotify.com:
 
 * Alt+Shift+Space: play, pause
 * Alt+Shift+P: previous track
