@@ -3,9 +3,12 @@ function sendCommandToTab(command, tab) {
     'play-pause': ['play', 'pause'],
     'next': ['skip-forward'],
     'previous': ['skip-back'],
+    'shuffle': ['shuffle'],
+    'repeat': ['repeat', 'repeatonce'],
+    'like': ['heart', 'heart-active'],
   }[command];
   if (!targets) return;
-  const selector = targets.map(t => `.spoticon-${t}-16`).join(', ');
+  const selector = targets.map(t => `.control-button.spoticon-${t}-16`).join(', ');
   const code = `document.querySelector("${selector}").click();`;
   chrome.tabs.executeScript(tab.id, { code });
 }

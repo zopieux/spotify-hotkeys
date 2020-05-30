@@ -2,13 +2,22 @@
 
 Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/spotify-web-player-hotkey/pdcbjjmgfakcbbchppeemlfpfgkdmjji).
 
-Adds the following keyboard shortcuts to https://open.spotify.com:
+Adds the following default keyboard shortcuts to https://open.spotify.com:
 
-* Alt+Shift+Space: play, pause
-* Alt+Shift+P: previous track
-* Alt+Shift+N: next track
+* *Play/Pause* media key: play, pause
+* *Previous* media key: previous track
+* *Next* media key: next track
 
-You can customize these shortcuts by opening `chrome://extensions/shortcuts`.
+There is no default shortcut, but you can also bind keys for:
+
+* Toggle shuffle
+* Toggle repeat (once, all, disabled)
+* Toggle song like
+
+You can customize these shortcuts and make them global hotkeys (not just while displaying Spotify) by opening `chrome://extensions/shortcuts`.
+
+
+**Warning**: Chrome/Chromium is known to not correctly register hotkeys after you've changed them in `chrome://extensions/shortcuts`. Please restart your browser by visiting `chrome://restart` after changes to shortcuts/hotkeys.
 
 This extension relies on the HTML/CSS structure of the website.
 Spotify might break it by changing their frontend.
