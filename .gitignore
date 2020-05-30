@@ -1,3 +1,5 @@
 *.crx
 *.pem
 *.zip
+/src/icon*.png
+/screenshot.jpg
