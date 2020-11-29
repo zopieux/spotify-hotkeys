@@ -9,4 +9,5 @@ src/icon-%.png: logo.svg
 	inkscape -w $* -h $* -o $@ $<
 
 spotify-hotkeys.zip: $(SRCS) $(ICONS)
+	rm -f $@
 	zip -r $@ src/
