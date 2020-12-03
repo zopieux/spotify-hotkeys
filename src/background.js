@@ -25,6 +25,7 @@ function sendCommandToTab(command, tab) {
     const paths = {
       'previous': ['M13 2.5L5 7.119V3H3v10h2V8.881l8 4.619z'],
       'play-pause': ['M0 0h16v16H0z', 'M4.018 14L14.41 8 4.018 2z'],
+      'next': ['M11 3v4.119L3 2.5v11l8-4.619V13h2V3z']
     }[command];
     if (!paths) return null;
     const sel = paths.map(p => `.player-controls path[d="${p}"]`).join(', ');
