@@ -1,19 +1,19 @@
 function sendCommandToTab(command, tab) {
   // Some buttons have a convenient CSS class. Use that to find it and click.
   function usingClass(command) {
-    const targets = {
-      'play-pause': ['play', 'pause'],
-      'next': ['skip-forward'],
-      'previous': ['skip-back'],
-      'shuffle': ['shuffle'],
-      'repeat': ['repeat', 'repeatonce'],
-      'like': ['heart', 'heart-active'],
+    const spoticon = x => x.map(t => `.control-button.spoticon-${t}-16`).join(', ');
+    const selector = {
+      'play-pause': spoticon(['play', 'pause']),
+      'next': spoticon(['skip-forward']),
+      'previous': spoticon(['skip-back']),
+      'shuffle': spoticon(['shuffle']),
+      'repeat': spoticon(['repeat', 'repeatonce']),
+      'like': '.control-button-heart button',
     }[command];
-    if (!targets) return null;
-    const sel = targets.map(t => `.control-button.spoticon-${t}-16`).join(', ');
+    if (!selector) return null;
     return `
       (function () {
-        const e = document.querySelector("${sel}");
+        const e = document.querySelector("${selector}");
         if (!e) throw "";
         e.click();
       })`;
