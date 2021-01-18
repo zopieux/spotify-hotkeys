@@ -1,6 +1,6 @@
 {
     "name": "Spotify Web Player Hotkeys",
-    "description": "Add keyboard shortcuts to control playback in Spotify Web",
+    "description": "Add keyboard shortcuts to control playback in Spotify Web.",
     "version": "0.5.0",
     "manifest_version": 2,
     "icons": {
