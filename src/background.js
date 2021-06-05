@@ -59,7 +59,7 @@ function sendCommandToTab(command, tab) {
   }
 
   // Use some reduce() smartness to use each method one after the other.
-  // Each method shoud throw to communicate that it failed to click its button.
+  // Each method should throw to communicate that it failed to click its button.
   // Use 'return;' to stop at the first successful method.
   const tryCascade = codes.reverse().reduce(
     (acc, fun) => `try { ${fun}(); return; } catch (_) { ${acc} }`,
