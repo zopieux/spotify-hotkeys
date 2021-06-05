@@ -1,0 +1,26 @@
+{
+    "application_title": {
+        "message": "Raccourcis clavier Spotify Web"
+    },
+    "application_description": {
+        "message": "Ajoute des raccourcis clavier globaux pour le lecteur Spotify Web."
+    },
+    "short_play_pause": {
+        "message": "Lecture/Pause"
+    },
+    "short_previous": {
+        "message": "Piste précédente"
+    },
+    "short_next": {
+        "message": "Piste suivante"
+    },
+    "short_shuffle": {
+        "message": "Lecture aléatoire oui/non"
+    },
+    "short_repeat": {
+        "message": "Répéter off/la piste/la liste de lecture"
+    },
+    "short_like": {
+        "message": "Chanson likée oui/non"
+    }
+}

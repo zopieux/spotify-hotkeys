@@ -1,7 +1,8 @@
 {
-    "name": "Spotify Web Player Hotkeys",
-    "description": "Add keyboard shortcuts to control playback in Spotify Web.",
-    "version": "0.5.0",
+    "name": "__MSG_application_title__",
+    "description": "__MSG_application_description__",
+    "version": "0.5.1",
+    "default_locale": "en",
     "manifest_version": 2,
     "icons": {
         "16": "icon-16.png",
@@ -18,36 +19,36 @@
     },
     "commands": {
         "play-pause": {
-            "description": "Play/Pause",
+            "description": "__MSG_short_play_pause__",
             "suggested_key": {
                 "default": "MediaPlayPause"
             },
             "global": true
         },
         "previous": {
-            "description": "Previous track",
+            "description": "__MSG_short_previous__",
             "suggested_key": {
                 "default": "MediaPrevTrack"
             },
             "global": true
         },
         "next": {
-            "description": "Next track",
+            "description": "__MSG_short_next__",
             "suggested_key": {
                 "default": "MediaNextTrack"
             },
             "global": true
         },
         "shuffle": {
-            "description": "Toggle shuffle",
+            "description": "__MSG_short_shuffle__",
             "global": true
         },
         "repeat": {
-            "description": "Toggle repeat none/song/playlist",
+            "description": "__MSG_short_repeat__",
             "global": true
         },
         "like": {
-            "description": "Toggle song like",
+            "description": "__MSG_short_like__",
             "global": true
         }
     },

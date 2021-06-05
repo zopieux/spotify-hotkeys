@@ -11,7 +11,7 @@ Adds the following default keyboard shortcuts to https://open.spotify.com:
 There is no default shortcut, but you can also bind keys for:
 
 * Toggle shuffle
-* Toggle repeat (once, all, disabled)
+* Toggle repeat (single song, whole playlist, disabled)
 * Toggle song like
 
 You can customize these shortcuts and make them global hotkeys (not just while displaying Spotify) by opening `chrome://extensions/shortcuts`.

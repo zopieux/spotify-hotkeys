@@ -1,0 +1,28 @@
+{
+    "application_title": {
+        "message": "Spotify Web Player Hotkeys",
+        "description": "App title"
+    },
+    "application_description": {
+        "message": "Add keyboard shortcuts to control playback in Spotify Web.",
+        "description": "App description"
+    },
+    "short_play_pause": {
+        "message": "Play/Pause"
+    },
+    "short_previous": {
+        "message": "Previous track"
+    },
+    "short_next": {
+        "message": "Next track"
+    },
+    "short_shuffle": {
+        "message": "Toggle shuffle"
+    },
+    "short_repeat": {
+        "message": "Toggle repeat off/single song/whole playlist"
+    },
+    "short_like": {
+        "message": "Toggle song like"
+    }
+}
