@@ -1,4 +1,15 @@
 function sendCommandToTab(command, tab) {
+  const animator = `
+    try {
+      const anim = (i) => {
+        e.style.transform = (i % 2 == 1) ? 'scale(1.2)' : null;
+        if (i == 0) return;
+        setTimeout(() => anim(i - 1), 80);
+      };
+      anim(3);
+    } catch(_) {}
+  `;
+
   // Some buttons have a convenient CSS class/attribute. Use that to find it and click.
   function usingSelector(command) {
     const spoticon = x => `.control-button.spoticon-${x}-16`;
@@ -18,6 +29,7 @@ function sendCommandToTab(command, tab) {
         const e = document.querySelector("${selector}");
         if (!e) throw "";
         e.click();
+        ${animator}
       })`;
   }
 
@@ -45,6 +57,7 @@ function sendCommandToTab(command, tab) {
         while (e && e.tagName.toLowerCase() !== "button") e = e.parentNode;
         if (!e) throw "";
         e.click();
+        ${animator}
       })`;
   }
 
