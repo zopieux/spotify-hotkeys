@@ -28,3 +28,10 @@ The code is [short and simple](/src/background.js).
 ## License
 
 MIT.
+
+## Thanks!
+
+I'd like to thank GitHub users:
+
+* https://github.com/kumaxim for contributing a fix
+* https://github.com/Architectuur for making me aware of the Podcast seek buttons
