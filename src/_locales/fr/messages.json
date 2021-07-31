@@ -22,5 +22,11 @@
     },
     "short_like": {
         "message": "Chanson likée oui/non"
+    },
+    "short_seek_forward": {
+        "message": "Avancer (Podcasts seulement)"
+    },
+    "short_seek_backward": {
+        "message": "Reculer (Podcasts seulement)"
     }
 }

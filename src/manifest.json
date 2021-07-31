@@ -50,6 +50,14 @@
         "like": {
             "description": "__MSG_short_like__",
             "global": true
+        },
+        "seek-forward": {
+            "description": "__MSG_short_seek_forward__",
+            "global": true
+        },
+        "seek-backward": {
+            "description": "__MSG_short_seek_backward__",
+            "global": true
         }
     },
     "permissions": [

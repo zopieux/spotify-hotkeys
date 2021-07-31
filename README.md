@@ -13,9 +13,10 @@ There is no default shortcut, but you can also bind keys for:
 * Toggle shuffle
 * Toggle repeat (single song, whole playlist, disabled)
 * Toggle song like
+* Seek podcast backward
+* Seek podcast forward
 
 You can customize these shortcuts and make them global hotkeys (not just while displaying Spotify) by opening `chrome://extensions/shortcuts`.
-
 
 **Warning**: Chrome/Chromium is known to not correctly register hotkeys after you've changed them in `chrome://extensions/shortcuts`. Please restart your browser by visiting `chrome://restart` after changes to shortcuts/hotkeys.
 

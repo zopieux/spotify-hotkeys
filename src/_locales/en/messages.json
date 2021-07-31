@@ -24,5 +24,11 @@
     },
     "short_like": {
         "message": "Toggle song like"
+    },
+    "short_seek_forward": {
+        "message": "Seek forward (Podcasts only)"
+    },
+    "short_seek_backward": {
+        "message": "Seek backward (Podcasts only)"
     }
 }
