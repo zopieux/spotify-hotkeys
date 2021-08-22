@@ -20,7 +20,7 @@ function sendCommandToTab(command, tab) {
       'previous': [spoticon('skip-back')],
       'shuffle': [spoticon('shuffle')],
       'repeat': [spoticon('repeat'), spoticon('repeatonce')],
-      'like': ['.control-button-heart button'],
+      'like': ['.control-button-heart'],
     }[command];
     if (!selectors) return null;
     const selector = selectors.join(', ');
