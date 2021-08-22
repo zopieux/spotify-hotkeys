@@ -33,5 +33,7 @@ MIT.
 
 I'd like to thank GitHub users:
 
+* https://github.com/msp26 for reporting issue #3
 * https://github.com/kumaxim for contributing a fix
 * https://github.com/Architectuur for making me aware of the Podcast seek buttons
+* https://github.com/jsauder2 for reporting issue #7
