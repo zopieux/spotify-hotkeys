@@ -37,3 +37,4 @@ I'd like to thank GitHub users:
 * https://github.com/kumaxim for contributing a fix
 * https://github.com/Architectuur for making me aware of the Podcast seek buttons
 * https://github.com/jsauder2 for reporting issue #7
+* https://github.com/shie1d3d for providing valuable data to fix issue #10
