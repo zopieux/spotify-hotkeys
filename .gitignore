@@ -3,3 +3,7 @@
 *.zip
 /src/icon*.png
 /screenshot.jpg
+/dev
+!/dev/check.js
+!/dev/golden/
+!/dev/package.json

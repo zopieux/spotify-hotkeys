@@ -1,0 +1,47 @@
+name: Check for Spotify changes
+
+on:
+  schedule:
+    # UTC.
+    - cron: '42 20 * * *'
+
+jobs:
+  check-spotify:
+    name: Check for Spotify changes
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+
+      - name: Install deps
+        run: npm install
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+
+      - name: Run
+        run: >
+          xvfb-run --auto-servernum node ./check.js ;
+          ( pkill -9 xvfb-run || true )
+        env:
+          SPOT_SP_T: ${{ secrets.SPT }}
+          SPOT_SP_DC: ${{ secrets.SPDC }}
+
+      - uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: dump
+          path: |
+            /tmp/*.png
+            /tmp/svg.json
+          if-no-files-found: error
