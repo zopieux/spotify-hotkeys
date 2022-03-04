@@ -100,7 +100,7 @@ function clickOpts() {
 async function songStates(page, svgs) {
   // Start playing a normal, liked song (since we're in Liked Songs).
   {
-    const btn = await page.waitForSelector('[data-testid="tracklist-row"] button', {visible: true});
+    const btn = await page.waitForSelector('[data-testid="action-bar-row"] [data-testid="play-button"]');
     await btn.click(clickOpts());
   }
   await waitForLicense(page);

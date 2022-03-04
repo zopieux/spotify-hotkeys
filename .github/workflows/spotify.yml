@@ -1,6 +1,7 @@
 name: Check for Spotify changes
 
 on:
+  workflow_dispatch:
   schedule:
     # UTC.
     - cron: '42 20 * * *'
