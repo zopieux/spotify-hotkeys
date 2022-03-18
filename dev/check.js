@@ -235,7 +235,6 @@ async function compareWithGolden() {
         expectedFilename: expected,
         diffFilename: `/tmp/diff-${name}`,
         generateOnlyDiffFile: true,
-        options: {threshold: 0.05, includeAA: true},
       });
       if (!diff.imagesAreSame) {
         hasDiff = true;
