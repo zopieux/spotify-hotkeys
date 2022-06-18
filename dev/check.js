@@ -4,9 +4,8 @@
 
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
-import * as path from 'path';
 import {imgDiff} from 'img-diff-js';
-import {diffString, diff} from 'json-diff';
+import {diffString} from 'json-diff';
 
 const kSongOrder = {
   like: 0,
