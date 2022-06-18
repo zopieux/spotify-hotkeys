@@ -20,7 +20,7 @@ function sendCommandToTab(command, tab) {
     const selectors = {
       'play-pause': [spoticon('play'), spoticon('pause'), testid('control-button-play'), testid('control-button-pause'), testid('control-button-playpause')],
       'next': [spoticon('skip-forward'), testid('control-button-skip-forward')],
-      'previous': [spoticon('skip-back')],
+      'previous': [spoticon('skip-back'), testid('control-button-skip-back')],
       'shuffle': [spoticon('shuffle'), testid('control-button-shuffle')],
       'repeat': [spoticon('repeat'), spoticon('repeatonce'), testid('control-button-repeat')],
       'like': ['.control-button-heart', testid('add-button')],
