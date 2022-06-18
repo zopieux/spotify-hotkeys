@@ -1,4 +1,7 @@
 function sendCommandToTab(command, tab) {
+  // https://github.com/mantou132/Spotify-Lyrics/issues/94
+  const DENY = '.extension-lyrics-button';
+
   const animator = `
     try {
       const anim = (i) => {
@@ -23,7 +26,7 @@ function sendCommandToTab(command, tab) {
       'like': ['.control-button-heart', testid('add-button')],
     }[command];
     if (!selectors) return null;
-    const selector = selectors.join(', ');
+    const selector = selectors.map(s => `${s}:not(${DENY})`).join(', ');
     return `
       (function () {
         const e = document.querySelector("${selector}");
