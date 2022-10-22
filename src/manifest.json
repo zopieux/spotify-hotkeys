@@ -1,7 +1,7 @@
 {
     "name": "__MSG_application_title__",
     "description": "__MSG_application_description__",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "default_locale": "en",
     "manifest_version": 3,
     "icons": {
@@ -54,6 +54,18 @@
         },
         "seek-backward": {
             "description": "__MSG_short_seek_backward__",
+            "global": true
+        },
+        "volume-up": {
+            "description": "__MSG_volume_up__",
+            "global": true
+        },
+        "volume-down": {
+            "description": "__MSG_volume_down__",
+            "global": true
+        },
+        "volume-mute": {
+            "description": "__MSG_volume_mute__",
             "global": true
         }
     },

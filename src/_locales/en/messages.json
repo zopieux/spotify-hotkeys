@@ -8,27 +8,36 @@
         "description": "App description"
     },
     "short_play_pause": {
-        "message": "Play/Pause"
+        "message": "Playback: play / pause"
     },
     "short_previous": {
-        "message": "Previous track"
+        "message": "Playback: previous track"
     },
     "short_next": {
-        "message": "Next track"
+        "message": "Playback: next track"
     },
     "short_shuffle": {
-        "message": "Toggle shuffle"
+        "message": "Playback: toggle shuffle"
     },
     "short_repeat": {
-        "message": "Toggle repeat off/single song/whole playlist"
+        "message": "Playback: toggle repeat none / track / playlist"
     },
     "short_like": {
-        "message": "Toggle song like"
+        "message": "Like: toggle song like"
     },
     "short_seek_forward": {
-        "message": "Seek forward (Podcasts only)"
+        "message": "Podcast: seek forward"
     },
     "short_seek_backward": {
-        "message": "Seek backward (Podcasts only)"
+        "message": "Podcast: seek backward"
+    },
+    "volume_up": {
+        "message": "Volume: increase by 10%"
+    },
+    "volume_down": {
+        "message": "Volume: decrease by 10%"
+    },
+    "volume_mute": {
+        "message": "Volume: toggle mute"
     }
 }

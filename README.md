@@ -13,6 +13,7 @@ There is no default shortcut, but you can also bind keys for:
 * Toggle shuffle
 * Toggle repeat (single song, whole playlist, disabled)
 * Toggle song like
+* Increase, decrease & mute volume
 * Seek podcast backward
 * Seek podcast forward
 

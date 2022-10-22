@@ -6,27 +6,36 @@
         "message": "Ajoute des raccourcis clavier globaux pour le lecteur Spotify Web."
     },
     "short_play_pause": {
-        "message": "Lecture/Pause"
+        "message": "Lecture : lecture / pause"
     },
     "short_previous": {
-        "message": "Piste précédente"
+        "message": "Lecture : piste précédente"
     },
     "short_next": {
-        "message": "Piste suivante"
+        "message": "Lecture : piste suivante"
     },
     "short_shuffle": {
-        "message": "Lecture aléatoire oui/non"
+        "message": "Lecture : aléatoire oui / non"
     },
     "short_repeat": {
-        "message": "Répéter off/la piste/la liste de lecture"
+        "message": "Lecture : répéter aucun / piste / playlist"
     },
     "short_like": {
-        "message": "Chanson likée oui/non"
+        "message": "Like : titre liké oui / non"
     },
     "short_seek_forward": {
-        "message": "Avancer (Podcasts seulement)"
+        "message": "Podcast : avancer"
     },
     "short_seek_backward": {
-        "message": "Reculer (Podcasts seulement)"
+        "message": "Podcast : reculer"
+    },
+    "volume_up": {
+        "message": "Volume : augmenter de 10%"
+    },
+    "volume_down": {
+        "message": "Volume : diminuer de 10%"
+    },
+    "volume_mute": {
+        "message": "Volume : sourdine oui / non"
     }
 }
