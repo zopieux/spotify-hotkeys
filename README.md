@@ -1,6 +1,12 @@
 # Spotify Web hotkeys
 
-Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/spotify-web-player-hotkey/pdcbjjmgfakcbbchppeemlfpfgkdmjji).
+<p align="center">
+
+[![Install from Chrome Web Store](.github/chromewebstore.png)](https://chrome.google.com/webstore/detail/spotify-web-player-hotkey/pdcbjjmgfakcbbchppeemlfpfgkdmjji)
+
+[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/spotify-web-player-hotkey/pdcbjjmgfakcbbchppeemlfpfgkdmjji)
+
+</p>
 
 Adds the following default keyboard shortcuts to https://open.spotify.com:
 
