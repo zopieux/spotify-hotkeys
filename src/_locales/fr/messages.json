@@ -24,10 +24,10 @@
         "message": "Like : titre liké oui / non"
     },
     "short_seek_forward": {
-        "message": "Podcast : avancer"
+        "message": "Lecture : avancer"
     },
     "short_seek_backward": {
-        "message": "Podcast : reculer"
+        "message": "Lecture : reculer"
     },
     "volume_up": {
         "message": "Volume : augmenter de 10%"

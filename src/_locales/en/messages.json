@@ -26,10 +26,10 @@
         "message": "Like: toggle song like"
     },
     "short_seek_forward": {
-        "message": "Podcast: seek forward"
+        "message": "Playback: seek forward"
     },
     "short_seek_backward": {
-        "message": "Podcast: seek backward"
+        "message": "Playback: seek backward"
     },
     "volume_up": {
         "message": "Volume: increase by 10%"

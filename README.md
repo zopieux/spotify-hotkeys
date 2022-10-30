@@ -20,8 +20,7 @@ There is no default shortcut, but you can also bind keys for:
 * Toggle repeat (single song, whole playlist, disabled)
 * Toggle song like
 * Increase, decrease & mute volume
-* Seek podcast backward
-* Seek podcast forward
+* Seek backward & forward in both songs (±5 seconds) and podcasts (±15 seconds)
 
 You can customize these shortcuts and make them global hotkeys (not just while displaying Spotify) by opening `chrome://extensions/shortcuts`.
 
@@ -46,3 +45,4 @@ I'd like to thank GitHub users:
 * https://github.com/jsauder2 for reporting issue #7
 * https://github.com/shie1d3d for providing valuable data to fix issue #10
 * https://github.com/CyanSlinky for suggesting volume shortcuts in issue #12
+* https://github.com/neviln for suggesting generalized seek shortcuts (not just podcasts) in issue #13

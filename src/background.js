@@ -19,17 +19,24 @@ async function sendCommandToTab(command, tab) {
     }
 
     function clickAndAnimate(e) {
-      if (!e) throw "element not found";
+      if (!e) throw 'element not found';
       e.click();
       animate(e);
     }
 
-    function usingVolumeSlider(action) {
-      const slider = document.querySelector('[class*=volume] input[type=range]');
-      const value = action == 'volume-up' ? 1 : -1;
+    function usingSlider(selector, goUp) {
+      const slider = document.querySelector(selector);
+      const value = parseInt(goUp ? slider.max : slider.min);
       VALUE_SET.call(slider, value);
-      slider.dispatchEvent(new Event('input', { value, bubbles: true }));
       slider.dispatchEvent(new Event('change', { value, bubbles: true }));
+    }
+
+    function usingVolumeSlider(command) {
+      usingSlider('[class*=volume] input[type=range]', command == 'volume-up');
+    }
+
+    function usingSeekSlider(command) {
+      usingSlider('[class=playback-bar] input[type=range]', command == 'seek-forward');
     }
 
     function usingSelector(command) {
@@ -44,7 +51,7 @@ async function sendCommandToTab(command, tab) {
         'like': ['.control-button-heart', testid('add-button')],
         'volume-mute': ['.volume-bar__icon-button control-button', testid('volume-bar-toggle-mute-button')],
       }[command];
-      if (!selectors) return null;
+      if (!selectors) throw '';
       const selector = selectors.map(s => `${s}:not(${DENY})`).join(', ');
       clickAndAnimate(document.querySelector(selector));
     }
@@ -99,11 +106,12 @@ async function sendCommandToTab(command, tab) {
           'M9.741.85a.75.75 0 01.375.65v13a.75.75 0 01-1.125.65l-6.925-4a3.642 3.642 0 01-1.33-4.967 3.639 3.639 0 011.33-1.332l6.925-4a.75.75 0 01.75 0zm-6.924 5.3a2.139 2.139 0 000 3.7l5.8 3.35V2.8l-5.8 3.35zm8.683 4.29V5.56a2.75 2.75 0 010 4.88z',
         ],
       }[command];
-      if (!paths) return null;
+      if (!paths) throw '';
       const selector = paths.map(p => `button svg path[d="${p}"]`).join(', ');
+      if (!selector) throw '';
       let e = document.querySelector(selector);
-      if (!e) throw "<path> not found";
-      while (!!e && !!e.tagName && e.tagName.toLowerCase() !== "button") e = e.parentNode;
+      if (!e) throw '<path> not found';
+      while (!!e && !!e.tagName && e.tagName.toLowerCase() !== 'button') e = e.parentNode;
       clickAndAnimate(e);
     }
 
@@ -124,6 +132,17 @@ async function sendCommandToTab(command, tab) {
         usingSvg(command);
         return;
       } catch (e) {
+        if (command == 'seek-forward' || command == 'seek-backward') {
+          // Special case for seek: try first with selector/svg so that
+          // podcasts use the correct 15s seek, then fallback on seek slider for
+          // song 5s seek.
+          try {
+            usingSeekSlider(command);
+            return;
+          } catch (e) {
+            console.warn(`[Spotify Web Player Hotkeys] Could not change seek slider: ${e}`);
+          }
+        }
         console.warn(`[Spotify Web Player Hotkeys] Could not click '${command}': ${e}`);
       }
     }
