@@ -3,7 +3,7 @@
   "type": "module",
   "dependencies": {
     "img-diff-js": "^0.5.2",
-    "json-diff": "^0.7.1",
-    "puppeteer": "^10.1.0"
+    "json-diff": "^1.0.0",
+    "puppeteer": "^19.4.1"
   }
 }

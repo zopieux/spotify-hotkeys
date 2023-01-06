@@ -1,10 +1,13 @@
 name: Check for Spotify changes
 
 on:
+  push:
+    branches:
+      - pupet-firefox
   workflow_dispatch:
-  schedule:
-    # UTC.
-    - cron: '42 20 * * *'
+  # schedule:
+  #   # UTC.
+  #   - cron: '42 20 * * *'
 
 jobs:
   check-spotify:
@@ -28,7 +31,7 @@ jobs:
       - name: Install deps
         run: npm install
         env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+          PUPPETEER_PRODUCT: 'firefox'
 
       - name: Run
         run: >

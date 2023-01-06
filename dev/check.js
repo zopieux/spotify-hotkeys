@@ -43,13 +43,18 @@ async function setCookies(page, cookies) {
 
 async function createPuppeteer() {
   const browser = await puppeteer.launch({
+    product: 'firefox',
     headless: false,
     defaultViewport: {width: 1280, height: 900},
-    args: [
-      '--autoplay-policy=no-user-gesture-required',
-      '--audio-output-channels=2',
-    ],
-    executablePath: process.env['CHROME_BIN'],
+    extraPrefsFirefox: {
+      'media.gmp-manager.updateEnabled': true,
+      'media.eme.enabled': true,
+    },
+    // args: [
+    //   '--autoplay-policy=no-user-gesture-required',
+    //   '--audio-output-channels=2',
+    // ],
+    // executablePath: process.env['CHROME_BIN'],
   });
   return await browser.newPage();
 }
@@ -208,7 +213,7 @@ async function dumpImagesAndSvg() {
   // Load Liked Songs.
   await page.goto('https://open.spotify.com/collection/tracks');
   await sleep(3);
-  await consentCookies(page);
+  try { await consentCookies(page); } catch (e) { }
   await songStates(page, svgs);
 
   // Load a podcast tracklist.
