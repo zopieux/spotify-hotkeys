@@ -12,3 +12,6 @@ src/icon-%.png: logo.svg
 spotify-hotkeys.zip: $(SRCS) $(ICONS)
 	rm -f $@
 	zip -r $@ src/
+
+store%.png: store%.xcf
+	gimp -i -b '(let* ((image (car (gimp-file-load RUN-NONINTERACTIVE "$<" "$<"))) (drawable (car (gimp-image-merge-visible-layers image CLIP-TO-IMAGE)))) (file-png-save-defaults RUN-NONINTERACTIVE image drawable "$@" "$@"))' -b '(gimp-quit 0)'
