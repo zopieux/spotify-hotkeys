@@ -155,7 +155,37 @@ async function sendCommandToTab(command, tab) {
   });
 }
 
+async function getSpotifyTab(createIfNotExist = false, focusAndActivate = false) {
+  // First check current visible tab - extra processing but makes sure commands
+  // executed / animations occur only within active tab.
+  let [activeTab] = await chrome.tabs.query({ active: true, windowId: chrome.windows.WINDOW_ID_CURRENT });
+  let tab = activeTab;
+  if (!tab || !tab.url?.startsWith('https://open.spotify.com/')) [tab] = await chrome.tabs.query({ url: 'https://open.spotify.com/*' });
+  if (createIfNotExist && !tab) {
+    // Only create new spotify tab within non-incognito window.
+    const wins = (await chrome.windows.getAll())
+      .filter((win) => !win.incognito)
+      // Sort filtered windows by most recently created, assuming that more recent
+      // window id will always by higher. If only there were an easy way of sorting by
+      // recent activity.
+      .sort((a, b) => b.id - a.id);
+    let lastNormalWinId = wins.find((win) => win.focused)?.id ?? wins[0].id;
+    lastNormalWinId ??= (await chrome.windows.create({ focused: false, incognito: false })).id;
+    tab = await chrome.tabs.create({ url: 'https://open.spotify.com', active: false, windowId: lastNormalWinId });
+  }
+  // Use expando prop on found tab to record combined tab.active & window.focus
+  // state (as it stands before explicitly focusing if required below).
+  if (tab) tab.focusedAndActive = tab.active && (await chrome.windows.get(tab.windowId))?.focused;
+  if (!tab || !focusAndActivate) return tab;
+
+  if (!activeTab?.id !== tab.id) {
+    chrome.windows.update(tab.windowId, { focused: true });
+    chrome.tabs.update(tab.id, { active: true });
+  };
+  return tab;
+}
+
 chrome.commands.onCommand.addListener(async function (command) {
-  const tabs = await chrome.tabs.query({ url: 'https://open.spotify.com/*' });
-  tabs.forEach(async function (tab) { await sendCommandToTab(command, tab) });
+  const tab = await getSpotifyTab();
+  await sendCommandToTab(command, tab);
 });
