@@ -39,10 +39,12 @@ MIT.
 
 I'd like to thank GitHub users:
 
-* https://github.com/msp26 for reporting issue #3
-* https://github.com/kumaxim for contributing a fix
 * https://github.com/Architectuur for making me aware of the Podcast seek buttons
-* https://github.com/jsauder2 for reporting issue #7
-* https://github.com/shie1d3d for providing valuable data to fix issue #10
 * https://github.com/CyanSlinky for suggesting volume shortcuts in issue #12
+* https://github.com/jsauder2 for reporting issue #7
+* https://github.com/kumaxim for contributing a fix
+* https://github.com/mmeowmeow for providing the fix to issue #16
+* https://github.com/msp26 for reporting issue #3
 * https://github.com/neviln for suggesting generalized seek shortcuts (not just podcasts) in issue #13
+* https://github.com/shie1d3d for providing valuable data to fix issue #10
+* https://github.com/smurfvindaloo for reporting issue #16
