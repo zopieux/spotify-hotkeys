@@ -32,7 +32,7 @@ async function sendCommandToTab(command, tab) {
     }
 
     function usingVolumeSlider(command) {
-      usingSlider('[class*=volume] input[type=range]', command == 'volume-up');
+      usingSlider('[data-testid*=volume] input[type=range]', command == 'volume-up');
     }
 
     function usingSeekSlider(command) {
