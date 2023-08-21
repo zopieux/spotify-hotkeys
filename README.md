@@ -16,6 +16,7 @@ Adds the following default keyboard shortcuts to https://open.spotify.com:
 
 There is no default shortcut, but you can also bind keys for:
 
+* Open or focus Spotify then cycle between home, queue & search pages
 * Toggle shuffle
 * Toggle repeat (single song, whole playlist, disabled)
 * Toggle song like
