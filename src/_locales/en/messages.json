@@ -42,5 +42,11 @@
     },
     "volume_mute": {
         "message": "Volume: toggle mute"
+    },
+    "interact_dialog_text": {
+        "message": "Click anywhere or press any key."
+    },
+    "interact_dialog_subtext": {
+        "message": "This interaction is required by the browser as a security measure, after which shortcuts will work transparently."
     }
 }

@@ -79,5 +79,16 @@
     ],
     "host_permissions": [
         "https://open.spotify.com/"
+    ],
+    "web_accessible_resources": [
+        {
+            "matches": [
+                "https://open.spotify.com/*"
+            ],
+            "resources": [
+                "web_accessible/checkPageInteraction.js",
+                "web_accessible/logo.svg"
+            ]
+        }
     ]
 }

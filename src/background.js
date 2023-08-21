@@ -2,7 +2,7 @@ async function sendCommandToTab(command, tab) {
   // Let's have multiple methods to find the right button, because Spotify
   // decided front-end development was more exciting with randomized CSS
   // classes... but not for all UI elements of course. Yay, consistency!
-  function findAndClick(command) {
+  async function findAndClick(command) {
     // https://github.com/mantou132/Spotify-Lyrics/issues/94
     const DENY = '.extension-lyrics-button';
     const VALUE_SET = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
@@ -145,14 +145,41 @@ async function sendCommandToTab(command, tab) {
       clickAndAnimate(e);
     }
 
-    if (command == 'volume-up' || command == 'volume-down') {
-      try {
-        usingVolumeSlider(command);
-      } catch (e) {
-        console.warn(`[Spotify Web Player Hotkeys] Could not change volume slider: ${e}`);
+    function dispatchCommand(command) {
+      if (command == 'volume-up' || command == 'volume-down') {
+        try {
+          usingVolumeSlider(command);
+        } catch (e) {
+          console.warn(`[Spotify Web Player Hotkeys] Could not change volume slider: ${e}`);
+        }
+        return;
       }
-      return;
-    } else if (command === 'queue-search') {
+
+      try {
+        usingSelector(command);
+        return;
+      } catch (e) {
+        try {
+          usingSvg(command);
+          return;
+        } catch (e) {
+          if (command == 'seek-forward' || command == 'seek-backward') {
+            // Special case for seek: try first with selector/svg so that
+            // podcasts use the correct 15s seek, then fallback on seek slider for
+            // song 5s seek.
+            try {
+              usingSeekSlider(command);
+              return;
+            } catch (e) {
+              console.warn(`[Spotify Web Player Hotkeys] Could not change seek slider: ${e}`);
+            }
+          }
+          console.warn(`[Spotify Web Player Hotkeys] Could not click '${command}': ${e}`);
+        }
+      }
+    }
+
+    if (command === 'queue-search') {
       if (window.location.pathname === '/queue') {
         command = 'search';
       } else if (window.location.pathname.startsWith('/search')) {
@@ -162,31 +189,15 @@ async function sendCommandToTab(command, tab) {
       }
     }
 
-    try {
-      usingSelector(command);
-      return;
-    } catch (e) {
-      try {
-        usingSvg(command);
-        return;
-      } catch (e) {
-        if (command == 'seek-forward' || command == 'seek-backward') {
-          // Special case for seek: try first with selector/svg so that
-          // podcasts use the correct 15s seek, then fallback on seek slider for
-          // song 5s seek.
-          try {
-            usingSeekSlider(command);
-            return;
-          } catch (e) {
-            console.warn(`[Spotify Web Player Hotkeys] Could not change seek slider: ${e}`);
-          }
-        }
-        console.warn(`[Spotify Web Player Hotkeys] Could not click '${command}': ${e}`);
-      }
+    const result = (await import(chrome.runtime.getURL("web_accessible/checkPageInteraction.js"))).default(command, dispatchCommand);
+    if (result === 'requestUserInteraction') {
+      console.warn('[Spotify Web Player Hotkeys] Page interaction required before playback');
+      return result;
     }
+    dispatchCommand(command);
   }
 
-  await chrome.scripting.executeScript({
+  return await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: findAndClick,
     args: [command],
@@ -219,8 +230,11 @@ async function getSpotifyTab(createIfNotExist = false, focusAndActivate = false)
 }
 
 chrome.commands.onCommand.addListener(async function (command) {
-  const tab = await getSpotifyTab();
-  await sendCommandToTab(command, tab);
+  const shouldCreateAndFocus = (command === 'queue-search');
+  const tab = await getSpotifyTab(shouldCreateAndFocus, shouldCreateAndFocus);
+  if (!tab || (command === 'queue-search' && !tab.focusedAndActive)) return;
+  const response = await sendCommandToTab(command, tab);
+  if (response?.[0]?.result === 'requestUserInteraction') await getSpotifyTab(false, true);
 });
 
 chrome.action.onClicked.addListener(async () => {

@@ -40,5 +40,11 @@
     },
     "volume_mute": {
         "message": "Volume : sourdine oui / non"
+    },
+    "interact_dialog_text": {
+        "message": "Cliquez n'importe où ou appuyez sur une touche."
+    },
+    "interact_dialog_subtext": {
+        "message": "Cette interaction est une mesure de sécurité imposée par le navigateur, après laquelle les raccourcis fonctionneront de manière transparente."
     }
 }
