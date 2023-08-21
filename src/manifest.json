@@ -13,6 +13,7 @@
     "background": {
         "service_worker": "background.js"
     },
+    "action": { },
     "commands": {
         "play-pause": {
             "description": "__MSG_short_play_pause__",
@@ -66,10 +67,15 @@
         "volume-mute": {
             "description": "__MSG_volume_mute__",
             "global": true
+        },
+        "queue-search": {
+            "description": "__MSG_queue_search__",
+            "global": true
         }
     },
     "permissions": [
-        "scripting"
+        "scripting",
+        "storage"
     ],
     "host_permissions": [
         "https://open.spotify.com/"

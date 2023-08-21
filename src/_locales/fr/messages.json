@@ -5,6 +5,9 @@
     "application_description": {
         "message": "Ajoute des raccourcis clavier globaux pour le lecteur Spotify Web."
     },
+    "queue_search": {
+        "message": "Navigation : Accueil / Liste de lecture / Rechercher"
+    },
     "short_play_pause": {
         "message": "Lecture : lecture / pause"
     },
