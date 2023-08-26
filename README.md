@@ -42,6 +42,7 @@ I'd like to thank GitHub users:
 
 * https://github.com/Architectuur for making me aware of the Podcast seek buttons
 * https://github.com/CyanSlinky for suggesting volume shortcuts in issue #12
+* https://github.com/frypf for the non-trivial improvments implemented in pull-request #15
 * https://github.com/jsauder2 for reporting issue #7
 * https://github.com/kumaxim for contributing a fix
 * https://github.com/mmeowmeow for providing the fix to issue #16
