@@ -2,7 +2,7 @@ async function sendCommandToTab(command, tab) {
   // Let's have multiple methods to find the right button, because Spotify
   // decided front-end development was more exciting with randomized CSS
   // classes... but not for all UI elements of course. Yay, consistency!
-  async function findAndClick(command) {
+  async function findAndClick(command, tabIsActive) {
     // https://github.com/mantou132/Spotify-Lyrics/issues/94
     const DENY = '.extension-lyrics-button';
     const VALUE_SET = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
@@ -39,6 +39,61 @@ async function sendCommandToTab(command, tab) {
       usingSlider('[class=playback-bar] input[type=range]', command == 'seek-forward');
     }
 
+    // A Very Cursed search for a specific iconography using SVG path d= attr.
+    function getFooterButtonBySvgPath(paths) {
+      const selector = paths.map(p => `footer button:has(svg path[d="${p}"])`).join(', ');
+      return document.querySelector(selector);
+    }
+
+    function getFooterLikedButton() {
+      const paths = ['M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm11.748-1.97a.75.75 0 0 0-1.06-1.06l-4.47 4.47-1.405-1.406a.75.75 0 1 0-1.061 1.06l2.466 2.467 5.53-5.53z'];
+      return getFooterButtonBySvgPath(paths)
+    }
+
+    function clickUnlike() {
+      if (!tabIsActive) {
+        console.warn('[Spotify Web Player Hotkeys] Unliking song requires the tab to be active');
+        return;
+      }
+      let observerTarget = document.body;
+      let contextMenu = document.querySelector('#context-menu:has([aria-labelledby="listrow-title-spotify:collection:tracks"])');
+      let unlikeBtn = getFooterLikedButton();
+      const removeObserver = () => {
+        unlikeObserver.disconnect();
+        unlikeObserver = null;
+      }
+      let unlikeObserver = new MutationObserver(mutations => {
+        for (const mutation of mutations) {
+          if (observerTarget !== document.body && [...mutation.removedNodes].some(n => n.id === 'context-menu' || n.querySelector('#context-menu'))) {
+            removeObserver();
+            return;
+          }
+          [...mutation.addedNodes].some(n => {
+            if (!contextMenu) {
+              if (!!(contextMenu = n.querySelector('#context-menu'))) {
+                observerTarget = n;
+                unlikeObserver.disconnect();
+                unlikeObserver.observe(observerTarget, { childList: true, subtree: true });
+                unlikeBtn = null;
+                return true;
+              }
+            } else if (contextMenu && !unlikeBtn) {
+              if (!!(unlikeBtn = n.querySelector('button:has([aria-labelledby="listrow-title-spotify:collection:tracks"])'))) {
+                if (unlikeBtn.ariaChecked === 'true') unlikeBtn.click();
+                return true;
+              }
+            } else if (n && n?.tagName.toLowerCase() === 'button' && n?.getAttribute('type') === 'submit') {
+              n.click();
+              removeObserver();
+              return true;
+            }
+          });
+        }
+      });
+      unlikeObserver.observe(observerTarget, { childList: true, subtree: true });
+      unlikeBtn.click();
+    }
+
     function usingSelector(command) {
       const spoticon = x => `.control-button.spoticon-${x}-16`;
       const testid = x => `[data-testid=${x}]`;
@@ -48,19 +103,19 @@ async function sendCommandToTab(command, tab) {
         'previous': [spoticon('skip-back'), testid('control-button-skip-back')],
         'shuffle': [spoticon('shuffle'), testid('control-button-shuffle')],
         'repeat': [spoticon('repeat'), spoticon('repeatonce'), testid('control-button-repeat')],
-        'like': ['.control-button-heart', testid('add-button')],
         'volume-mute': ['.volume-bar__icon-button control-button', testid('volume-bar-toggle-mute-button')],
         'queue': [testid('control-button-queue')],
-        'home': ['[href="/"]'],
-        'search': ['[href="/search"]'],
+        'now-playing': [testid('control-button-npv')],
+        'go-home': ['nav a[href="/"]'],
+        'go-search': ['nav a[href="/search"]'],
       }[command];
       if (!selectors) throw '';
       const selector = selectors.map(s => `${s}:not(${DENY})`).join(', ');
-      clickAndAnimate(document.querySelector(selector));
+      const node = document.querySelector(selector);
+      if (!node) throw '';
+      clickAndAnimate(node);
     }
 
-    // A Very Cursed search for a specific iconography using CSS <path> d=
-    // attribute. Then go up the DOM tree to find the parent button and click.
     function usingSvg(command) {
       const paths = {
         'play-pause': [
@@ -88,6 +143,7 @@ async function sendCommandToTab(command, tab) {
           'm7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z',
         ],
         'like': [
+          'M11.75 8a.75.75 0 0 1-.75.75H8.75V11a.75.75 0 0 1-1.5 0V8.75H5a.75.75 0 0 1 0-1.5h2.25V5a.75.75 0 0 1 1.5 0v2.25H11a.75.75 0 0 1 .75.75z',
           'M13.764 2.727a4.057 4.057 0 00-5.488-.253.558.558 0 01-.31.112.531.531 0 01-.311-.112 4.054 4.054 0 00-5.487.253A4.05 4.05 0 00.974 5.61c0 1.089.424 2.113 1.168 2.855l4.462 5.223a1.791 1.791 0 002.726 0l4.435-5.195A4.052 4.052 0 0014.96 5.61a4.057 4.057 0 00-1.196-2.883zm-.722 5.098L8.58 13.048c-.307.36-.921.36-1.228 0L2.864 7.797a3.072 3.072 0 01-.905-2.187c0-.826.321-1.603.905-2.187a3.091 3.091 0 012.191-.913 3.05 3.05 0 011.957.709c.041.036.408.351.954.351.531 0 .906-.31.94-.34a3.075 3.075 0 014.161.192 3.1 3.1 0 01-.025 4.403z',
           'M1.69 2A4.582 4.582 0 018 2.023 4.583 4.583 0 0111.88.817h.002a4.618 4.618 0 013.782 3.65v.003a4.543 4.543 0 01-1.011 3.84L9.35 14.629a1.765 1.765 0 01-2.093.464 1.762 1.762 0 01-.605-.463L1.348 8.309A4.582 4.582 0 011.689 2zm3.158.252A3.082 3.082 0 002.49 7.337l.005.005L7.8 13.664a.264.264 0 00.311.069.262.262 0 00.09-.069l5.312-6.33a3.043 3.043 0 00.68-2.573 3.118 3.118 0 00-2.551-2.463 3.079 3.079 0 00-2.612.816l-.007.007a1.501 1.501 0 01-2.045 0l-.009-.008a3.082 3.082 0 00-2.121-.861z',
           'M15.724 4.22A4.313 4.313 0 0012.192.814a4.269 4.269 0 00-3.622 1.13.837.837 0 01-1.14 0 4.272 4.272 0 00-6.21 5.855l5.916 7.05a1.128 1.128 0 001.727 0l5.916-7.05a4.228 4.228 0 00.945-3.577z',
@@ -123,29 +179,29 @@ async function sendCommandToTab(command, tab) {
           'M10.116 1.5A.75.75 0 0 0 8.991.85l-6.925 4a3.642 3.642 0 0 0-1.33 4.967 3.639 3.639 0 0 0 1.33 1.332l6.925 4a.75.75 0 0 0 1.125-.649v-1.906a4.73 4.73 0 0 1-1.5-.694v1.3L2.817 9.852a2.141 2.141 0 0 1-.781-2.92c.187-.324.456-.594.78-.782l5.8-3.35v1.3c.45-.313.956-.55 1.5-.694V1.5z',
           'M13.86 5.47a.75.75 0 0 0-1.061 0l-1.47 1.47-1.47-1.47A.75.75 0 0 0 8.8 6.53L10.269 8l-1.47 1.47a.75.75 0 1 0 1.06 1.06l1.47-1.47 1.47 1.47a.75.75 0 0 0 1.06-1.06L12.39 8l1.47-1.47a.75.75 0 0 0 0-1.06z',
         ],
-        'queue': [
-          'M15 15H1v-1.5h14V15zm0-4.5H1V9h14v1.5zm-14-7A2.5 2.5 0 0 1 3.5 1h9a2.5 2.5 0 0 1 0 5h-9A2.5 2.5 0 0 1 1 3.5zm2.5-1a1 1 0 0 0 0 2h9a1 1 0 1 0 0-2h-9z'
+        'toggle-now-playing': [
+          'M15.002 1.75A1.75 1.75 0 0 0 13.252 0h-10.5a1.75 1.75 0 0 0-1.75 1.75v12.5c0 .966.783 1.75 1.75 1.75h10.5a1.75 1.75 0 0 0 1.75-1.75V1.75zm-1.75-.25a.25.25 0 0 1 .25.25v12.5a.25.25 0 0 1-.25.25h-10.5a.25.25 0 0 1-.25-.25V1.75a.25.25 0 0 1 .25-.25h10.5z',
+          'M11.196 8 6 5v6l5.196-3z',
         ],
-        'home': [
-          'M12.5 3.247a1 1 0 0 0-1 0L4 7.577V20h4.5v-6a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v6H20V7.577l-7.5-4.33zm-2-1.732a3 3 0 0 1 3 0l7.5 4.33a2 2 0 0 1 1 1.732V21a1 1 0 0 1-1 1h-6.5a1 1 0 0 1-1-1v-6h-3v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.577a2 2 0 0 1 1-1.732l7.5-4.33z',
-          'M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732l-7.5-4.33z'
+        'toggle-queue': [
+          'M15 15H1v-1.5h14V15zm0-4.5H1V9h14v1.5zm-14-7A2.5 2.5 0 0 1 3.5 1h9a2.5 2.5 0 0 1 0 5h-9A2.5 2.5 0 0 1 1 3.5zm2.5-1a1 1 0 0 0 0 2h9a1 1 0 1 0 0-2h-9z',
         ],
-        'search': [
-          'M10.533 1.279c-5.18 0-9.407 4.14-9.407 9.279s4.226 9.279 9.407 9.279c2.234 0 4.29-.77 5.907-2.058l4.353 4.353a1 1 0 1 0 1.414-1.414l-4.344-4.344a9.157 9.157 0 0 0 2.077-5.816c0-5.14-4.226-9.28-9.407-9.28zm-7.407 9.279c0-4.006 3.302-7.28 7.407-7.28s7.407 3.274 7.407 7.28-3.302 7.279-7.407 7.279-7.407-3.273-7.407-7.28z',
-          'M1.126 10.558c0-5.14 4.226-9.28 9.407-9.28 5.18 0 9.407 4.14 9.407 9.28a9.157 9.157 0 0 1-2.077 5.816l4.344 4.344a1 1 0 0 1-1.414 1.414l-4.353-4.353a9.454 9.454 0 0 1-5.907 2.058c-5.18 0-9.407-4.14-9.407-9.28zm9.407-7.28c-4.105 0-7.407 3.274-7.407 7.28s3.302 7.279 7.407 7.279 7.407-3.273 7.407-7.28c0-4.005-3.302-7.278-7.407-7.278z'
+        'toggle-lyrics': [
+          'M13.426 2.574a2.831 2.831 0 0 0-4.797 1.55l3.247 3.247a2.831 2.831 0 0 0 1.55-4.797zM10.5 8.118l-2.619-2.62A63303.13 63303.13 0 0 0 4.74 9.075L2.065 12.12a1.287 1.287 0 0 0 1.816 1.816l3.06-2.688 3.56-3.129zM7.12 4.094a4.331 4.331 0 1 1 4.786 4.786l-3.974 3.493-3.06 2.689a2.787 2.787 0 0 1-3.933-3.933l2.676-3.045 3.505-3.99z',
         ],
       }[command];
       if (!paths) throw '';
-      const tag = (['search', 'home'].includes(command)) ? 'a' : 'button';
-      const selector = paths.map(p => `${tag} svg path[d="${p}"]`).join(', ');
-      if (!selector) throw '';
-      let e = document.querySelector(selector);
-      if (!e) throw '<path> not found';
-      while (!!e && !!e.tagName && e.tagName.toLowerCase() !== tag) e = e.parentNode;
-      clickAndAnimate(e);
+      const node = getFooterButtonBySvgPath(paths);
+      if (!node) throw 'button with <path> not found';
+      clickAndAnimate(node);
     }
 
     function dispatchCommand(command) {
+      if (command === 'unlike') {
+        clickUnlike();
+        return;
+      }
+
       if (command == 'volume-up' || command == 'volume-down') {
         try {
           usingVolumeSlider(command);
@@ -179,14 +235,8 @@ async function sendCommandToTab(command, tab) {
       }
     }
 
-    if (command === 'queue-search') {
-      if (window.location.pathname === '/queue') {
-        command = 'search';
-      } else if (window.location.pathname.startsWith('/search')) {
-        command = 'home';
-      } else {
-        command = 'queue';
-      }
+    if (command === 'like' && !!getFooterLikedButton()) {
+      command = 'unlike';
     }
 
     const result = (await import(chrome.runtime.getURL("web_accessible/checkPageInteraction.js"))).default(command, dispatchCommand);
@@ -200,22 +250,22 @@ async function sendCommandToTab(command, tab) {
   return await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: findAndClick,
-    args: [command],
+    args: [command, tab.active],
   });
 }
 
-async function getSpotifyTab(createIfNotExist = false, focusAndActivate = false) {
+async function getSpotifyTab(createIfNotExist = false, focusAndActivate = false, url = 'https://open.spotify.com/') {
   // First check current visible tab - extra processing but makes sure commands
   // executed / animations occur only within active tab & avoids jarring switch
-  // to other tab / window if executing 'queue-search'.
+  // to other tab / window.
   let [activeTab] = await chrome.tabs.query({ active: true, windowId: chrome.windows.WINDOW_ID_CURRENT });
   let spotifyTab = activeTab;
   if (!spotifyTab || !spotifyTab.url?.startsWith('https://open.spotify.com/')) [spotifyTab] = await chrome.tabs.query({ url: 'https://open.spotify.com/*' });
   if (createIfNotExist && !spotifyTab) {
-    // Only create new spotify tab within most recent non-incognito window.
+    // Only create new Spotify tab within most recent non-incognito window.
     let lastNormalWinId = state.winIdStack[0];
     lastNormalWinId ??= (await chrome.windows.create({ focused: false, incognito: false })).id;
-    spotifyTab = await chrome.tabs.create({ url: 'https://open.spotify.com', active: false, windowId: lastNormalWinId });
+    spotifyTab = await chrome.tabs.create({ url, active: false, windowId: lastNormalWinId });
   }
   // Use expando prop on found tab to record combined tab.active & window.focus
   // states (before explicitly focusing if required below).
@@ -230,9 +280,20 @@ async function getSpotifyTab(createIfNotExist = false, focusAndActivate = false)
 }
 
 chrome.commands.onCommand.addListener(async function (command) {
-  const shouldCreateAndFocus = (command === 'queue-search');
-  const tab = await getSpotifyTab(shouldCreateAndFocus, shouldCreateAndFocus);
-  if (!tab || (command === 'queue-search' && !tab.focusedAndActive)) return;
+  const CREATE = 1, FOCUS = 2;
+  const requirements = {
+    'go-home': CREATE | FOCUS,
+    'go-search': CREATE | FOCUS,
+    'play-pause': CREATE,
+    'toggle-now-playing': FOCUS,
+    'toggle-queue': FOCUS,
+    'toggle-lyrics': FOCUS,
+  }[command] ?? 0;
+  const targetUrl = command === 'go-search' ? 'https://open.spotify.com/search' : undefined;
+  const tab = await getSpotifyTab(!!(requirements & CREATE), !!(requirements & FOCUS), targetUrl);
+  if (!tab) return;
+  if (command === 'go-search' && tab.pendingUrl?.startsWith('https://open.spotify.com/search')) return;
+  if (command === 'go-home' && tab.pendingUrl?.startsWith('https://open.spotify.com/')) return;
   const response = await sendCommandToTab(command, tab);
   if (response?.[0]?.result === 'requestUserInteraction') await getSpotifyTab(false, true);
 });
@@ -278,4 +339,11 @@ chrome.windows.onRemoved.addListener(async (winId) => {
   if (retrievingState) await retrievingState;
   state.winIdStack = state.winIdStack.filter((i) => i !== winId);
   await storeState();
+});
+
+chrome.action.onClicked.addListener(async (tab) => {
+  // Hack: scroll to shortcuts for self, using text anchor on the app name.
+  // Thanks Chrome for not providing a proper API!
+  const title = chrome.i18n.getMessage('application_title')
+  await chrome.tabs.create({ url: `chrome://extensions/shortcuts#:~:text=${title}`, active: true });
 });

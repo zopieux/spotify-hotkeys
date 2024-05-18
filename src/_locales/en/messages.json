@@ -1,14 +1,24 @@
 {
     "application_title": {
-        "message": "Spotify Web Player Hotkeys",
-        "description": "App title"
+        "message": "Spotify Web Player Hotkeys"
     },
     "application_description": {
-        "message": "Add keyboard shortcuts to control playback in Spotify Web.",
-        "description": "App description"
+        "message": "Add keyboard shortcuts to control playback in Spotify Web."
     },
-    "queue_search": {
-        "message": "Navigation: Home / Queue / Search"
+    "go_home": {
+        "message": "Navigation: open Home page"
+    },
+    "go_search": {
+        "message": "Navigation: open Search page"
+    },
+    "toggle_now_playing": {
+        "message": "Navigation: toggle “Now Playing” sidebar"
+    },
+    "toggle_queue": {
+        "message": "Navigation: toggle “Queue” sidebar"
+    },
+    "toggle_lyrics": {
+        "message": "Navigation: toggle “Lyrics” view"
     },
     "short_play_pause": {
         "message": "Playback: play / pause"

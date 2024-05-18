@@ -1,7 +1,7 @@
 {
     "name": "__MSG_application_title__",
     "description": "__MSG_application_description__",
-    "version": "1.3.1",
+    "version": "1.4.0",
     "default_locale": "en",
     "manifest_version": 3,
     "icons": {
@@ -68,8 +68,24 @@
             "description": "__MSG_volume_mute__",
             "global": true
         },
-        "queue-search": {
-            "description": "__MSG_queue_search__",
+        "toggle-queue": {
+            "description": "__MSG_toggle_queue__",
+            "global": true
+        },
+        "toggle-now-playing": {
+            "description": "__MSG_toggle_now_playing__",
+            "global": true
+        },
+        "toggle-lyrics": {
+            "description": "__MSG_toggle_lyrics__",
+            "global": true
+        },
+        "go-home": {
+            "description": "__MSG_go_home__",
+            "global": true
+        },
+        "go-search": {
+            "description": "__MSG_go_search__",
             "global": true
         }
     },

@@ -1,50 +1,62 @@
 {
-    "application_title": {
-        "message": "Raccourcis clavier Spotify Web"
-    },
-    "application_description": {
-        "message": "Ajoute des raccourcis clavier globaux pour le lecteur Spotify Web."
-    },
-    "queue_search": {
-        "message": "Navigation : Accueil / Liste de lecture / Rechercher"
-    },
-    "short_play_pause": {
-        "message": "Lecture : lecture / pause"
-    },
-    "short_previous": {
-        "message": "Lecture : piste précédente"
-    },
-    "short_next": {
-        "message": "Lecture : piste suivante"
-    },
-    "short_shuffle": {
-        "message": "Lecture : aléatoire oui / non"
-    },
-    "short_repeat": {
-        "message": "Lecture : répéter aucun / piste / playlist"
-    },
-    "short_like": {
-        "message": "Like : titre liké oui / non"
-    },
-    "short_seek_forward": {
-        "message": "Lecture : avancer"
-    },
-    "short_seek_backward": {
-        "message": "Lecture : reculer"
-    },
-    "volume_up": {
-        "message": "Volume : augmenter de 10%"
-    },
-    "volume_down": {
-        "message": "Volume : diminuer de 10%"
-    },
-    "volume_mute": {
-        "message": "Volume : sourdine oui / non"
-    },
-    "interact_dialog_text": {
-        "message": "Cliquez n'importe où ou appuyez sur une touche."
-    },
-    "interact_dialog_subtext": {
-        "message": "Cette interaction est une mesure de sécurité imposée par le navigateur, après laquelle les raccourcis fonctionneront de manière transparente."
-    }
+  "application_title": {
+    "message": "Raccourcis clavier Spotify Web"
+  },
+  "application_description": {
+    "message": "Ajoute des raccourcis clavier globaux pour le lecteur Spotify Web."
+  },
+  "short_play_pause": {
+    "message": "Lecture : lecture / pause"
+  },
+  "short_previous": {
+    "message": "Lecture : piste précédente"
+  },
+  "short_next": {
+    "message": "Lecture : piste suivante"
+  },
+  "short_shuffle": {
+    "message": "Lecture : lecture aléatoire oui / non"
+  },
+  "short_repeat": {
+    "message": "Lecture : répéter aucun / piste / playlist"
+  },
+  "short_like": {
+    "message": "Like : titre liké oui / non"
+  },
+  "short_seek_forward": {
+    "message": "Lecture : avancer"
+  },
+  "short_seek_backward": {
+    "message": "Lecture : reculer"
+  },
+  "volume_up": {
+    "message": "Volume : augmenter de 10%"
+  },
+  "volume_down": {
+    "message": "Volume : diminuer de 10%"
+  },
+  "volume_mute": {
+    "message": "Volume : sourdine oui / non"
+  },
+  "interact_dialog_text": {
+    "message": "Cliquez n'importe où ou appuyez sur une touche."
+  },
+  "interact_dialog_subtext": {
+    "message": "Cette interaction est une mesure de sécurité imposée par le navigateur, après laquelle les raccourcis fonctionneront de manière transparente."
+  },
+  "go_home": {
+    "message": "Navigation : ouvrir la page d'accueil"
+  },
+  "go_search": {
+    "message": "Navigation : ouvrir la page Rechercher"
+  },
+  "toggle_lyrics": {
+    "message": "Navigation : afficher / cacher « Paroles »"
+  },
+  "toggle_now_playing": {
+    "message": "Navigation : afficher / cacher « En cours de lecture »"
+  },
+  "toggle_queue": {
+    "message": "Navigation : afficher / cacher « File d'attente »"
+  }
 }

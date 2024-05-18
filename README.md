@@ -1,4 +1,4 @@
-# Spotify Web hotkeys
+# Spotify Web Player Hotkeys
 
 <p align="center">
 
@@ -10,20 +10,23 @@
 
 Adds the following default keyboard shortcuts to https://open.spotify.com:
 
-* *Play/Pause* media key: play, pause
+* *Play/Pause* media key: play, pause – opens a Spotify tab Spotify if necessary!
 * *Previous* media key: previous track
 * *Next* media key: next track
 
 There is no default shortcut, but you can also bind keys for:
 
-* Open or focus Spotify then cycle between home, queue & search pages
+* Navigating to the home page or the search page – opens a Spotify tab if necessary!
 * Toggle shuffle
 * Toggle repeat (single song, whole playlist, disabled)
-* Toggle song like
+* Toggle song like (since 2024, requires focusing the browser tab)
+* Toggle showing the queue sidebar
+* Toggle showing "now playing" sidebar
+* Toggle showing lyrics
 * Increase, decrease & mute volume
 * Seek backward & forward in both songs (±5 seconds) and podcasts (±15 seconds)
 
-You can customize these shortcuts and make them global hotkeys (not just while displaying Spotify) by opening `chrome://extensions/shortcuts`.
+You can customize these shortcuts and make them global hotkeys (not just while displaying Spotify) by opening `chrome://extensions/shortcuts` or clicking the extension icon.
 
 **Warning**: Chrome/Chromium is known to not correctly register hotkeys after you've changed them in `chrome://extensions/shortcuts`. Please restart your browser by visiting `chrome://restart` after changes to shortcuts/hotkeys.
 
