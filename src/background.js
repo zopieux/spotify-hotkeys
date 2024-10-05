@@ -36,7 +36,7 @@ async function sendCommandToTab(command, tab) {
     }
 
     function usingSeekSlider(command) {
-      usingSlider('[class=playback-bar] input[type=range]', command == 'seek-forward');
+      usingSlider('[data-testid=playback-progressbar] input[type=range]', command == 'seek-forward');
     }
 
     // A Very Cursed search for a specific iconography using SVG path d= attr.
