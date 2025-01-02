@@ -24,15 +24,25 @@ async function sendCommandToTab(command, tab) {
       if (e.tagName.toLowerCase() === 'button') animate(e);
     }
 
-    function usingSlider(selector, goUp) {
+    function usingSlider(selector, goUp, increment = null) {
       const slider = document.querySelector(selector);
-      const value = parseInt(goUp ? slider.max : slider.min);
+      let value;
+      if (increment === null) {
+        value = parseInt(goUp ? slider.max : slider.min);
+      } else {
+        const currentValue = parseInt(slider.value);
+        const maxValue = parseInt(slider.max);
+        const minValue = parseInt(slider.min);
+        value = currentValue + (goUp ? increment : -increment) * (maxValue - minValue);
+        value = Math.max(minValue, Math.min(maxValue, value));
+      }
       VALUE_SET.call(slider, value);
       slider.dispatchEvent(new Event('change', { value, bubbles: true }));
     }
 
     function usingVolumeSlider(command) {
-      usingSlider('[data-testid*=volume] input[type=range]', command == 'volume-up');
+      const VOLUME_INCREMENT = 0.1; // 10% increment/decrement
+      usingSlider('[data-testid*=volume] input[type=range]', command == 'volume-up', VOLUME_INCREMENT);
     }
 
     function usingSeekSlider(command) {
