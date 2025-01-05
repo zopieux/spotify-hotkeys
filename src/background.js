@@ -5,8 +5,6 @@ async function sendCommandToTab(command, tab) {
   async function findAndClick(command, tabIsActive) {
     // https://github.com/mantou132/Spotify-Lyrics/issues/94
     const DENY = '.extension-lyrics-button';
-    // Volume up/down steps: 10%.
-    const VOLUME_INCREMENT = 0.1;
 
     function animate(e) {
       try {
@@ -25,23 +23,23 @@ async function sendCommandToTab(command, tab) {
       if (e.tagName.toLowerCase() === 'button') animate(e);
     }
 
-    function usingSlider(selector, goUp) {
+    function usingSlider(selector, goUp, step) {
       const slider = document.querySelector(selector);
-      const increment = (goUp ? +1 : -1) * VOLUME_INCREMENT;
+      const increment = (goUp ? +1 : -1) * step;
       const max = parseFloat(slider.max);
       const min = parseFloat(slider.min);
       const wanted = parseFloat(slider.value) + increment * (max - min);
-      const value = Math.max(min, Math.min(max, wanted)).toFixed(1);
+      const value = Math.max(min, Math.min(max, wanted)).toFixed(2);
       slider.value = value;
       slider.dispatchEvent(new Event('change', { value, bubbles: true }));
     }
 
     function usingVolumeSlider(command) {
-      usingSlider('[data-testid*=volume] input[type=range]', command == 'volume-up');
+      usingSlider('[data-testid*=volume] input[type=range]', command == 'volume-up', 0.1);
     }
 
     function usingSeekSlider(command) {
-      usingSlider('[data-testid=playback-progressbar] input[type=range]', command == 'seek-forward');
+      usingSlider('[data-testid=playback-progressbar] input[type=range]', command == 'seek-forward', 0.05);
     }
 
     // A Very Cursed search for a specific iconography using SVG path d= attr.
