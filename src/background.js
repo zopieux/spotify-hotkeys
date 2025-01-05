@@ -5,7 +5,8 @@ async function sendCommandToTab(command, tab) {
   async function findAndClick(command, tabIsActive) {
     // https://github.com/mantou132/Spotify-Lyrics/issues/94
     const DENY = '.extension-lyrics-button';
-    const VALUE_SET = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+    // Volume up/down steps: 10%.
+    const VOLUME_INCREMENT = 0.1;
 
     function animate(e) {
       try {
@@ -26,8 +27,12 @@ async function sendCommandToTab(command, tab) {
 
     function usingSlider(selector, goUp) {
       const slider = document.querySelector(selector);
-      const value = parseInt(goUp ? slider.max : slider.min);
-      VALUE_SET.call(slider, value);
+      const increment = (goUp ? +1 : -1) * VOLUME_INCREMENT;
+      const max = parseFloat(slider.max);
+      const min = parseFloat(slider.min);
+      const wanted = parseFloat(slider.value) + increment * (max - min);
+      const value = Math.max(min, Math.min(max, wanted)).toFixed(1);
+      slider.value = value;
       slider.dispatchEvent(new Event('change', { value, bubbles: true }));
     }
 
